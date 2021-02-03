@@ -24,4 +24,10 @@ module.exports = app => {
 
         Atendimento.altera(id, valores, response);
     });
+
+    app.delete('/atendimentos/:id', (request, response) => {
+        const id = parseInt(request.params.id);
+
+        Atendimento.delete(id, response);
+    });
 };
