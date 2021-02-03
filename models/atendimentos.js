@@ -1,3 +1,4 @@
+const { response } = require('express');
 const moment = require('moment');
 const conexao = require('../database/conexao');
 
@@ -39,6 +40,31 @@ class Atendimento {
                 }
             });
         }
+    }
+
+    lista(response) {
+        const sql = 'SELECT * FROM Atendimentos'
+
+        conexao.query(sql, (erro, resultados) => {
+            if(erro) {
+                response.status(400).json(erro);
+            } else {
+                response.status(200).json(resultados);
+            }
+        });
+    }
+
+    buscaPorId(id, response) {
+        const sql = `SELECT * FROM Atendimentos WHERE id=${id}`;
+
+        conexao.query(sql, (erro, resultados) => {
+            const atendimento = resultados[0];
+            if(erro) {
+                response.status(400).json(erro);
+            } else {
+                response.status(200).json(atendimento);
+            }
+        });
     }
 };
 
