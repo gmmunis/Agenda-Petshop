@@ -4,7 +4,7 @@ const conexao = require('../database/conexao');
 
 class Atendimento {
     adiciona(atendimento, response) {
-        const dataCriacao = moment().format('YYYY-MM-DD HH:MM:SS');
+        const dataCriacao = moment('2021-02-03').format('YYYY-MM-DD HH:MM:SS');
         const data = moment(atendimento.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS');
         const dataEhValida = moment(data).isSameOrAfter(dataCriacao);
         const clienteEhValido = atendimento.cliente.length >= 5;
@@ -46,7 +46,7 @@ class Atendimento {
         const sql = 'SELECT * FROM Atendimentos'
 
         conexao.query(sql, (erro, resultados) => {
-            if(erro) {
+            if (erro) {
                 response.status(400).json(erro);
             } else {
                 response.status(200).json(resultados);
@@ -59,10 +59,24 @@ class Atendimento {
 
         conexao.query(sql, (erro, resultados) => {
             const atendimento = resultados[0];
-            if(erro) {
+            if (erro) {
                 response.status(400).json(erro);
             } else {
                 response.status(200).json(atendimento);
+            }
+        });
+    }
+
+    altera(id, valores, response) {
+        if (valores.data) {
+            valores.data = moment(valores.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS');
+        }
+        const sql = 'UPDATE Atendimentos SET ? WHERE id=?';
+        conexao.query(sql, [valores, id], (erro, resultados) => {
+            if (erro) {
+                response.status(400).json(erro);
+            } else {
+                response.status(200).json(resultados);
             }
         });
     }
