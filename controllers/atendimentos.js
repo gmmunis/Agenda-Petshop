@@ -14,7 +14,10 @@ module.exports = app => {
     app.post('/atendimentos', (request, response) => {
         const atendimento = request.body;
 
-        Atendimento.adiciona(atendimento, response);
+        Atendimento.adiciona(atendimento)
+            .then(atendimentoCadastrado => response.status(201).json(atendimentoCadastrado)
+            )
+            .catch(erros => response.status(400).json(erros))
     });
 
     app.patch('/atendimentos/:id', (request, response) => {
