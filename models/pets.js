@@ -1,4 +1,4 @@
-const conexao = require('../database/conexao');
+const conexao = require('../infra/conexao');
 const uploadDeArquivo = require('../arquivos/uploadDeArquivos');
 
 class Pet {
